@@ -70,8 +70,9 @@ const styles = StyleSheet.create({
             height: 20
         },
         // for android:
-        elevation: 3,
-        marginVertical: 3
+        elevation: 9,
+        marginVertical: 3,
+        backgroundColor: '#E5E4E2'
     },
     imageContainer: {
         display: 'flex',

@@ -23,7 +23,8 @@ export type UserCardType = {
     id?: string;
     name: FullNameType,
     location: LocationType,
-    picture: Pick<PictureType, "medium">
+    picture: Pick<PictureType, "medium">,
+    email: string;
 }
 
 export interface SearchBarInterface {
@@ -34,4 +35,10 @@ export interface usersSliceType {
     users: UserCardType[];
     status: "idle" | "loading" | "succeeded" | "failed";
     error: any;
+}
+
+export interface Button {
+    onPress: () => void;
+    title: string;
+    customStyle?: Object;
 }

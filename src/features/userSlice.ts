@@ -34,6 +34,11 @@ const userSlice = createSlice({
             if (indexToDelete > -1) {
                 state.users.splice(indexToDelete, 1);
             }
+        },
+        editUserAtIndex: (state, action: PayloadAction) => {
+            const { userIndex, user } = action.payload;
+            state.users[userIndex] = user;
+            console.log(state.users);
         }
     },
     extraReducers(builder) {
@@ -44,11 +49,10 @@ const userSlice = createSlice({
                     id: user.login.uuid,
                     name: user.name,
                     location: user.location,
-                    picture: user.picture
+                    picture: user.picture,
+                    email: user.email
                 }))
-
                 state.users = allUsers;
-                console.log('### allusers:', allUsers)
             })
             .addCase(fetchUsers.rejected, (state, action) => {
                 state.status = 'failed';
@@ -61,6 +65,6 @@ export const selectAllUsers = (state) => state.users.users;
 export const getUsersStatus = (state) => state.users.status;
 export const getUsersError = (state) => state.users.error;
 
-export const { addUser, deleteUserByIndex } = userSlice.actions;
+export const { addUser, deleteUserByIndex, editUserAtIndex } = userSlice.actions;
 
 export default userSlice.reducer;

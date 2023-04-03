@@ -1,6 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { StyleSheet, Text, SafeAreaView } from 'react-native'
+import { StyleSheet, Text, SafeAreaView, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
+import Button from '../components/Button';
 import SearchBar from '../components/SearchBar';
 import UserList from '../components/UserList';
 import { fetchUsers, selectAllUsers } from '../features/userSlice';
@@ -9,8 +11,9 @@ import { UserCardType } from '../types';
 const HomeScreen = () => {
 
   const dispatch = useDispatch();
+  const navigation = useNavigation();
+
   const allUsers = useSelector<UserCardType[]>(selectAllUsers);
-  console.log('### all Users!', allUsers)
   const [criteria, setCriteria] = useState('');
 
   const filteredData = useMemo(() => {
@@ -29,7 +32,9 @@ const HomeScreen = () => {
   })
 }, [criteria, allUsers?.length])
 
-console.log('### filteredDAta:',filteredData)
+const onPressAddUser = () =>{
+  console.log('pressed') 
+  navigation.push('UserScreen')}
 
 useEffect(() => {
   dispatch(fetchUsers());
@@ -38,6 +43,8 @@ useEffect(() => {
   return (
     <SafeAreaView style={styles.container}>
       <SearchBar filter={setCriteria} />
+      <Button onPress={onPressAddUser} title="Add User" customStyle={styles.addBtn}/>
+      <View style={styles.divider} />
       <UserList data={filteredData} />
     </SafeAreaView>
   )
@@ -48,8 +55,16 @@ export default HomeScreen
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
         backgroundColor: '#FAFBFF',
+    },
+    addBtn: {
+      alignSelf: 'flex-end',
+      padding: 8,
+      margin: 10,
+    },
+    divider: {
+      width: '100%',
+      borderWidth: 0.6,
+      borderBottomColor: '#E5E4E2',
     }
 })

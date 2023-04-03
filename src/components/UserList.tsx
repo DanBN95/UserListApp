@@ -9,7 +9,6 @@ const UserList = ({ data }: any) => {
     const renderUserListItem = (user: any, index: number) => {
 
         const key = user?.login?.uuid;
-        console.log('key:',key);
 
         return (
             <UserCard user={user} key={key}/>
@@ -33,7 +32,7 @@ export default UserList
 const styles = StyleSheet.create({
     listContainer: {
         flex: 1,
-        marginHorizontal: 3,
+        marginHorizontal: 6,
         // marginVertical: 10
     },
     list: {
