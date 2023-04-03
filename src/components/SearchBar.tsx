@@ -1,8 +1,9 @@
-import React, { useState, useRef, useEffect, useMemo } from 'react'
+import React, { useState } from 'react'
 import { StyleSheet, TextInput, Text, View } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import { debounce } from "lodash";
 import { SearchBarInterface } from '../types';
+import { PASTEL_PINK } from '../constants/constants';
 
 const SEARCH_PLACE_HOLDER = 'Find User'
 
@@ -14,19 +15,7 @@ const SearchBar = ({ filter }: SearchBarInterface) => {
         setText(newText)
         filter(newText);
     }
-    const debouncedOnChange = useMemo(() => {
-        return debounce(handleChangeText, 200);
-    }, []); 
-
-    // useEffect(() => {
-    //     return () => {
-    //         debouncedOnChange.cancel();
-    //     }
-    // },[debouncedOnChange])
-
     
-
-
   return (
     <View style={styles.container}>
         <View style={styles.searchBox}>
@@ -46,13 +35,15 @@ export default SearchBar
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: 'pink',
+        backgroundColor: PASTEL_PINK,
         width: '80%',
         height: 50,
         justifyContent: 'center',
         alignItems: 'center',
         marginVertical: 30,
-        marginHorizontal: 45
+        marginHorizontal: 45,
+        elevation: 5,
+        borderRadius: 5
     },
     searchBox: {
         width: '100%',

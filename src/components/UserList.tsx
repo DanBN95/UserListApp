@@ -1,13 +1,11 @@
 import React, { useRef } from 'react'
 import { StyleSheet, View } from 'react-native'
-import dataTest from '../../dataTest.json';
-import { UserCardType } from '../types';
 import UserCard from './UserCard';
 import { useDispatch } from "react-redux";
 import { deleteUserByIndex } from '../features/userSlice';
 import { FlatList } from 'react-native-gesture-handler';
 
-const UserList = ({ data }: any) => {
+const UserList = ({ data }) => {
 
     const dispatch = useDispatch();
     const scrollRef = useRef(null);
@@ -49,7 +47,6 @@ const styles = StyleSheet.create({
     listContainer: {
         flex: 1,
         marginHorizontal: 6,
-        // marginVertical: 10
     },
     list: {
         marginVertical: 10,

@@ -12,6 +12,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useSelector, useDispatch } from "react-redux";
 import { addUser, selectAllUsers } from '../features/userSlice';
 import { UserCardType } from '../types';
+import { MAIN_BG_COLOR } from '../constants/constants';
 
 
 const DEFAULT_PIC_URI = 'https://picsum.photos/200';
@@ -172,6 +173,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-start',
     padding: 20,
+    backgroundColor: MAIN_BG_COLOR
   },
   profileContainer: {
     marginTop: 30,

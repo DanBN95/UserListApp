@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { StyleSheet, Text, SafeAreaView, View } from 'react-native'
+import { StyleSheet, SafeAreaView, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import Button from '../components/Button';
@@ -7,6 +7,7 @@ import SearchBar from '../components/SearchBar';
 import UserList from '../components/UserList';
 import { fetchUsers, selectAllUsers } from '../features/userSlice';
 import { UserCardType } from '../types';
+import { MAIN_BG_COLOR } from '../constants/constants';
 
 const HomeScreen = () => {
 
@@ -54,7 +55,7 @@ export default HomeScreen
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#FAFBFF',
+        backgroundColor: MAIN_BG_COLOR,
     },
     addBtn: {
       alignSelf: 'flex-end',
