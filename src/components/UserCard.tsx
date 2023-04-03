@@ -30,7 +30,6 @@ const UserCard = ({ user, onDeleteItem, simultaneousHandlers }: UserItemProps) =
 
     const panGesture = useAnimatedGestureHandler<PanGestureHandlerGestureEvent>({
         onActive: (event) => {
-            // console.log(event.translationX)
             translateX.value = event.translationX
         },
         onEnd: () => {
@@ -39,7 +38,6 @@ const UserCard = ({ user, onDeleteItem, simultaneousHandlers }: UserItemProps) =
                 translateX.value = withTiming(-SCREEN_WIDTH);
                 itemHeight.value = withTiming(0);
                 opacity.value = withTiming(0, undefined, (isDone) => {
-                    console.log('### isDONe?', isDone)
                     if (isDone && onDeleteItem) {
                         runOnJS (onDeleteItem)();
                     }
@@ -51,8 +49,6 @@ const UserCard = ({ user, onDeleteItem, simultaneousHandlers }: UserItemProps) =
     })
 
     const rIconContainerStyle = useAnimatedStyle(() => {
-        console.log("translateX", translateX.value);
-        console.log("Threshold", TRANSLATE_X_THRESHOLD);
         const opacity = withTiming(
             translateX.value > -TRANSLATE_X_THRESHOLD ? 1 : 0
         )

@@ -17,7 +17,6 @@ export const fetchUsers = createAsyncThunk('users/fetchUsers', async () => {
             results: 10,
         }
     });
-    console.log('### response:', response);
     return response?.data?.results;
     
 })
@@ -30,13 +29,11 @@ const userSlice = createSlice({
             state.users.push(action.payload);
         },
         deleteUserByIndex: (state, action: PayloadAction<number>) => {
-            console.log('### here in delete', action.payload)
             state.users.splice(action.payload, 1);
         },
         editUserAtIndex: (state, action: PayloadAction) => {
             const { userIndex, user } = action.payload;
             state.users[userIndex] = user;
-            console.log(state.users);
         }
     },
     extraReducers(builder) {

@@ -17,7 +17,6 @@ const HomeScreen = () => {
   const [criteria, setCriteria] = useState('');
 
   const filteredData = useMemo(() => {
-    console.log('Here in memo')
     return allUsers.filter((user: UserCardType) => {
       const { name, location } = user;
       const { first, last } = name;
@@ -34,7 +33,6 @@ const HomeScreen = () => {
 }, [criteria, allUsers?.length])
 
 const onPressAddUser = () =>{
-  console.log('pressed') 
   navigation.push('UserScreen')}
 
 useEffect(() => {

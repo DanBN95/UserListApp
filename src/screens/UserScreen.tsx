@@ -43,7 +43,6 @@ const UserScreen = ({ route }) => {
   }
 
   const textFieldValidation = () => {
-    console.log('### validation')
     const { firstName, lastName, email, location, gender, imageUrl} = userDetails;
     if (!firstName || !lastName || !email || !location || !gender || imageUrl) {
       Alert.alert('All fields are required');
@@ -59,7 +58,6 @@ const UserScreen = ({ route }) => {
     }
 
     const [street, city, country] = location.split(',');
-    console.log('### loc1:', street, city, country);
     const [stNum] = street.split(' ');
     const stName = stNum.length + 1 < street.length ? street.substring(stNum.length + 1) : '';
 
@@ -84,7 +82,6 @@ const UserScreen = ({ route }) => {
       }
     };
 
-    console.log("New user: ",NEW_USER);
 
     if (NEW_USER) {
       dispatch(addUser(user));
@@ -94,7 +91,6 @@ const UserScreen = ({ route }) => {
   };
 
   useEffect(() => {
-    console.log('new user:', NEW_USER)
     if (EXIST_USER) {
       const { name: { first, last, title }, location, email } = allUsers[userIndex];   
       setUserDetails({

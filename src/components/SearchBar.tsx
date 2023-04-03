@@ -11,7 +11,6 @@ const SearchBar = ({ filter }: SearchBarInterface) => {
     const [text, setText] = useState('');
 
     const handleChangeText = (newText: string) => {
-        // console.log(newText);
         setText(newText)
         filter(newText);
     }

@@ -27,7 +27,6 @@ const UserList = ({ data }: any) => {
     }
 
     const onDeleteItem = (userIndexToDelete: number) => {
-        console.log('### delete is running!')
         dispatch(deleteUserByIndex(userIndexToDelete))
     }
     
