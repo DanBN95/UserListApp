@@ -31,7 +31,7 @@ const HomeScreen = () => {
       }
       return true;
   })
-}, [criteria, allUsers?.length])
+}, [criteria, allUsers, allUsers?.length])
 
 const onPressAddUser = () =>{
   navigation.push('UserScreen')}

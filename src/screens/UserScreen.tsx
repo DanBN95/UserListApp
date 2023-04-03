@@ -10,7 +10,7 @@ import {
   Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector, useDispatch } from "react-redux";
-import { addUser, selectAllUsers } from '../features/userSlice';
+import { addUser, editUserAtIndex, selectAllUsers } from '../features/userSlice';
 import { UserCardType } from '../types';
 import { MAIN_BG_COLOR } from '../constants/constants';
 
@@ -86,6 +86,12 @@ const UserScreen = ({ route }) => {
 
     if (NEW_USER) {
       dispatch(addUser(user));
+    
+    } else if (EXIST_USER) {
+      dispatch(editUserAtIndex({
+        userIndex,
+        user
+      }))
     }
 
     navigation.goBack();
@@ -93,14 +99,18 @@ const UserScreen = ({ route }) => {
 
   useEffect(() => {
     if (EXIST_USER) {
-      const { name: { first, last, title }, location, email } = allUsers[userIndex];   
+      const { name: { first, last, title }, location, email, picture: { medium } } = allUsers[userIndex]; 
+      const { street: { number, name: streetName }, city, country } = location;
+      console.log(medium)
+      const fullLocation = `${number} ${streetName}, ${city}, ${country}`;  
       setUserDetails({
         ...userDetails,
         firstName: first,
         lastName: last,
         email,
-        location,
-        gender: title.charAt(0).toUpperCase()
+        location: fullLocation,
+        gender: title.charAt(0).toUpperCase() === 'f' ? 'Female' : 'Male',
+        imageUrl: medium
       })
     }
   }, [])

@@ -4,10 +4,12 @@ import UserCard from './UserCard';
 import { useDispatch } from "react-redux";
 import { deleteUserByIndex } from '../features/userSlice';
 import { FlatList } from 'react-native-gesture-handler';
+import { useNavigation } from '@react-navigation/native';
 
 const UserList = ({ data }) => {
 
     const dispatch = useDispatch();
+    const navigation = useNavigation();
     const scrollRef = useRef(null);
 
     const renderUserListItem = (user: any, index: number) => {
@@ -20,12 +22,20 @@ const UserList = ({ data }) => {
                 key={key} 
                 onDeleteItem={() => onDeleteItem(index)}
                 simultaneousHandlers={scrollRef}
+                onEditItem={() => onEditItem(index)}
             />
         )
     }
 
     const onDeleteItem = (userIndexToDelete: number) => {
         dispatch(deleteUserByIndex(userIndexToDelete))
+    }
+
+    const onEditItem = (userIndexToEdit: number) => {
+        console.log('edit item', userIndexToEdit);
+        navigation.push("UserScreen", {
+            userIndex: userIndexToEdit
+        });
     }
     
 

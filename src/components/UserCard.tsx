@@ -1,4 +1,4 @@
-import { Dimensions, Image, StyleSheet, Text, View } from 'react-native'
+import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react';
 import { UserCardType } from '../types';
 import { PanGestureHandler, PanGestureHandlerProps } from 'react-native-gesture-handler';
@@ -14,8 +14,9 @@ const TRANSLATE_X_THRESHOLD = SCREEN_WIDTH * 0.3;
 interface UserItemProps extends Pick<PanGestureHandlerProps, 'simultaneousHandlers'> {
     user: UserCardType;
     onDeleteItem: () => void;
+    onEditItem: () => void;
 }
-const UserCard = ({ user, onDeleteItem, simultaneousHandlers }: UserItemProps) => {
+const UserCard = ({ user, onDeleteItem, onEditItem, simultaneousHandlers }: UserItemProps) => {
 
     const translateX = useSharedValue(0);
     const itemHeight = useSharedValue(LIST_ITEM_HEIGHT);
@@ -67,6 +68,10 @@ const UserCard = ({ user, onDeleteItem, simultaneousHandlers }: UserItemProps) =
             opacity: opacity.value
         }
     });
+
+    const editItemHandler = () => {
+        onEditItem && onEditItem();
+    }
     
 
   return (
@@ -81,9 +86,14 @@ const UserCard = ({ user, onDeleteItem, simultaneousHandlers }: UserItemProps) =
             simultaneousHandlers={simultaneousHandlers}
         >
             <Animated.View style={[styles.cardContainer, rStyle]}>
+                <TouchableOpacity
+                onPress={editItemHandler}
+                activeOpacity={1}
+            >
                 <View style={styles.imageContainer}>
                     <Image source={{ uri: imageUrl }} style={styles.imageStyle} resizeMode='contain' />
                 </View>
+            </TouchableOpacity>
                 <View style={[styles.textContainer]}>
                     <Text style={[styles.text, styles.fullName]}>{fullName}</Text>
                     <Text style={[styles.text, styles.location]}>{fullLocation} </Text>
