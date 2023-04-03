@@ -25,3 +25,7 @@ export type UserCardType = {
     location: LocationType,
     picture: Pick<PictureType, "medium">
 }
+
+export interface SearchBarInterface {
+    filter: (str: string) => void;
+}
