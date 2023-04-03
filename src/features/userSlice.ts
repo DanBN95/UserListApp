@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction, nanoid, createAsyncThunk  } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction, createAsyncThunk  } from "@reduxjs/toolkit";
 import usersApi from "../app/usersApi";
 import { usersSliceType } from "../types";
 import { UserCardType } from "../types";

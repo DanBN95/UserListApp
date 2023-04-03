@@ -23,7 +23,6 @@ const RootStack = () => {
         initialRouteName='HomeScreen'
         screenOptions={{ headerShown: false }}
     >
-        {/* <Stack.Screen name='HomeScreen' component={HomeScreen} /> */}
         {screens.map((screen, index) => {
             const { name, component } = screen;
             return (

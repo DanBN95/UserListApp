@@ -32,7 +32,6 @@ const UserList = ({ data }) => {
     }
 
     const onEditItem = (userIndexToEdit: number) => {
-        console.log('edit item', userIndexToEdit);
         navigation.push("UserScreen", {
             userIndex: userIndexToEdit
         });

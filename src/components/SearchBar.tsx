@@ -3,7 +3,7 @@ import { StyleSheet, TextInput, Text, View } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import { debounce } from "lodash";
 import { SearchBarInterface } from '../types';
-import { PASTEL_PINK } from '../constants/constants';
+import { BLACK, PASTEL_PINK, RED } from '../constants/constants';
 
 const SEARCH_PLACE_HOLDER = 'Find User'
 
@@ -19,7 +19,7 @@ const SearchBar = ({ filter }: SearchBarInterface) => {
   return (
     <View style={styles.container}>
         <View style={styles.searchBox}>
-        <Feather name="search" size={30} color="#900" />
+        <Feather name="search" size={30} color={RED} />
             <TextInput 
                 style={styles.text} 
                 value={text}
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     text: {
-        color: '#000',
+        color: BLACK,
         marginLeft: 3,
         padding: 7,
         width: '70%'

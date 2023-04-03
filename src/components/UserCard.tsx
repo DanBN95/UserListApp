@@ -1,10 +1,10 @@
 import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react';
 import { UserCardType } from '../types';
-import { PanGestureHandler, PanGestureHandlerProps } from 'react-native-gesture-handler';
+import { PanGestureHandler, PanGestureHandlerProps, PanGestureHandlerGestureEvent } from 'react-native-gesture-handler';
 import Animated, { runOnJS, useAnimatedGestureHandler, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
-import { PanGestureHandlerGestureEvent } from 'react-native-gesture-handler';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import { RED } from '../constants/constants';
 
 const LIST_ITEM_HEIGHT = 70;
 
@@ -75,9 +75,9 @@ const UserCard = ({ user, onDeleteItem, onEditItem, simultaneousHandlers }: User
     
 
   return (
-    <View style={[{ width: '100%', alignItems: 'center', marginVertical: 10 }, rListItemContainer]}>
+    <View style={[styles.listItemContainer, rListItemContainer]}>
         <Animated.View style={[styles.iconContainer, rIconContainerStyle]}>
-            <AntDesign name="delete" size={LIST_ITEM_HEIGHT * 0.4} color={'red'} />
+            <AntDesign name="delete" size={LIST_ITEM_HEIGHT * 0.4} color={RED} />
         </Animated.View>
         <PanGestureHandler 
             onGestureEvent={panGesture}
@@ -107,6 +107,11 @@ const UserCard = ({ user, onDeleteItem, onEditItem, simultaneousHandlers }: User
 export default UserCard
 
 const styles = StyleSheet.create({
+    listItemContainer: {
+        width: '100%', 
+        alignItems: 'center', 
+        marginVertical: 10
+    },
     cardContainer: {
         display: 'flex',
         flexDirection: 'row',
