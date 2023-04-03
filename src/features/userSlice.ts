@@ -30,10 +30,8 @@ const userSlice = createSlice({
             state.users.push(action.payload);
         },
         deleteUserByIndex: (state, action: PayloadAction<number>) => {
-            const indexToDelete = state.users.indexOf(action.payload);
-            if (indexToDelete > -1) {
-                state.users.splice(indexToDelete, 1);
-            }
+            console.log('### here in delete', action.payload)
+            state.users.splice(action.payload, 1);
         },
         editUserAtIndex: (state, action: PayloadAction) => {
             const { userIndex, user } = action.payload;

@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
         height: 50,
         justifyContent: 'center',
         alignItems: 'center',
-        marginVertical: 20,
+        marginVertical: 30,
         marginHorizontal: 45
     },
     searchBox: {
@@ -65,6 +65,7 @@ const styles = StyleSheet.create({
     text: {
         color: '#000',
         marginLeft: 3,
-        padding: 3
+        padding: 7,
+        width: '70%'
     }
 })

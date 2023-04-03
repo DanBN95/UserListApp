@@ -18,13 +18,16 @@ import { NavigationContainer } from '@react-navigation/native';
 import RootStack from './src/navigation/RootStack';
 import { Provider } from 'react-redux';
 import { store } from './src/app/store';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const App = () => {
 
   return (
     <NavigationContainer>
       <Provider store={store}>
-        <RootStack />
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <RootStack />
+        </GestureHandlerRootView>
       </Provider>
     </NavigationContainer>
   );

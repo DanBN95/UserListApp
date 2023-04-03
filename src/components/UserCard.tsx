@@ -1,13 +1,25 @@
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { Dimensions, Image, StyleSheet, Text, View } from 'react-native'
 import React from 'react';
 import { UserCardType } from '../types';
-// import { PanGestureHandler } from 'react-native-gesture-handler';
-// import Animated, { useAnimatedGestureHandler, useAnimatedStyle, useSharedValue } from 'react-native-reanimated';
-// import { PanGestureHandlerGestureEvent } from 'react-native-gesture-handler/lib/typescript/handlers/gestureHandlerTypesCompat';
+import { PanGestureHandler, PanGestureHandlerProps } from 'react-native-gesture-handler';
+import Animated, { runOnJS, useAnimatedGestureHandler, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
+import { PanGestureHandlerGestureEvent } from 'react-native-gesture-handler';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
-const UserCard: React.FC<UserCardType> = ({ user }) => {
+const LIST_ITEM_HEIGHT = 70;
 
-    // const translateX = useSharedValue(0);
+const { width: SCREEN_WIDTH } = Dimensions.get('window');
+const TRANSLATE_X_THRESHOLD = SCREEN_WIDTH * 0.3;
+
+interface UserItemProps extends Pick<PanGestureHandlerProps, 'simultaneousHandlers'> {
+    user: UserCardType;
+    onDeleteItem: () => void;
+}
+const UserCard = ({ user, onDeleteItem, simultaneousHandlers }: UserItemProps) => {
+
+    const translateX = useSharedValue(0);
+    const itemHeight = useSharedValue(LIST_ITEM_HEIGHT);
+    const opacity = useSharedValue(1);
     const { name, location, picture: { medium: imageUrl }} = user;
 
     const { title, first, last } = name;
@@ -16,41 +28,73 @@ const UserCard: React.FC<UserCardType> = ({ user }) => {
     const fullName = `${title}. ${first} ${last}`;
     const fullLocation = `${number} ${streetName} Street, ${city}, ${country}`;
 
-    // const panGesture = useAnimatedGestureHandler<PanGestureHandlerGestureEvent>({
-    //     onActive: (event) => {
-    //         translateX.value = event.translationX
-    //     },
-    //     onEnd: () => {}
-    // })
+    const panGesture = useAnimatedGestureHandler<PanGestureHandlerGestureEvent>({
+        onActive: (event) => {
+            // console.log(event.translationX)
+            translateX.value = event.translationX
+        },
+        onEnd: () => {
+            const shouldBeDismissed = translateX.value < TRANSLATE_X_THRESHOLD;
+            if (shouldBeDismissed) {
+                translateX.value = withTiming(-SCREEN_WIDTH);
+                itemHeight.value = withTiming(0);
+                opacity.value = withTiming(0, undefined, (isDone) => {
+                    console.log('### isDONe?', isDone)
+                    if (isDone && onDeleteItem) {
+                        runOnJS (onDeleteItem)();
+                    }
+                });
+            } else {
+                translateX.value = withTiming(0);
+            }
+        }
+    })
 
-    // const rStyle = useAnimatedStyle(() => ({
-    //     transform: [{
-    //         translateX: translateX.value
-    //     }]
-    // }))
+    const rIconContainerStyle = useAnimatedStyle(() => {
+        console.log("translateX", translateX.value);
+        console.log("Threshold", TRANSLATE_X_THRESHOLD);
+        const opacity = withTiming(
+            translateX.value > -TRANSLATE_X_THRESHOLD ? 1 : 0
+        )
+        return { opacity };
+    })
+
+    const rStyle = useAnimatedStyle(() => ({
+        transform: [{
+            translateX: translateX.value,
+        }]
+    }))
+
+    const rListItemContainer = useAnimatedStyle(() => {
+        return {
+            height: itemHeight.value,
+            opacity: opacity.value
+        }
+    });
     
 
   return (
-    <View style={styles.cardContainer}>
-        <View style={styles.imageContainer}>
-            <Image source={{ uri: imageUrl }} style={styles.imageStyle} resizeMode='contain' />
-        </View>
-        <View style={styles.textContainer}>
-            <Text style={styles.fullName}>{fullName}</Text>
-            <Text style={styles.location}>{fullLocation}</Text>
-        </View>
-  </View>
-    // <PanGestureHandler>
-    //     <Animated.View style={[styles.cardContainer, rStyle]}>
-    //         <Animated.View style={styles.imageContainer}>
-    //             <Image source={{ uri: imageUrl }} style={styles.imageStyle} resizeMode='contain' />
-    //         </Animated.View>
-    //         <Animated.View style={styles.textContainer}>
-    //             <Text style={styles.fullName}>{fullName}</Text>
-    //             <Text style={styles.location}>{fullLocation}</Text>
-    //         </Animated.View>
-    //     </Animated.View>
-    // </PanGestureHandler>
+    <View style={[{ width: '100%', alignItems: 'center', marginVertical: 10 }, rListItemContainer]}>
+        <Animated.View style={[styles.iconContainer, rIconContainerStyle]}>
+            <AntDesign name="delete" size={LIST_ITEM_HEIGHT * 0.4} color={'red'} />
+        </Animated.View>
+        <PanGestureHandler 
+            onGestureEvent={panGesture}
+            activeOffsetX={[-5,5]} 
+            failOffsetY={[-5,5]}
+            simultaneousHandlers={simultaneousHandlers}
+        >
+            <Animated.View style={[styles.cardContainer, rStyle]}>
+                <View style={styles.imageContainer}>
+                    <Image source={{ uri: imageUrl }} style={styles.imageStyle} resizeMode='contain' />
+                </View>
+                <View style={[styles.textContainer]}>
+                    <Text style={[styles.text, styles.fullName]}>{fullName}</Text>
+                    <Text style={[styles.text, styles.location]}>{fullLocation} </Text>
+                </View>
+            </Animated.View>
+        </PanGestureHandler>
+    </View>
   )
 }
 
@@ -62,7 +106,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         width: '100%',
-        height: 100,
+        height: LIST_ITEM_HEIGHT,
         // for ios: 
         shadowOpacity: 1,
         shadowOffset: {
@@ -71,7 +115,6 @@ const styles = StyleSheet.create({
         },
         // for android:
         elevation: 9,
-        marginVertical: 3,
         backgroundColor: '#E5E4E2'
     },
     imageContainer: {
@@ -93,13 +136,21 @@ const styles = StyleSheet.create({
         width: '80%'
     },
     text: {
-        
+        maxWidth: '60%'
     },
     fullName: {
         fontSize: 17
     },
     location: {
         fontSize: 12
+    },
+    iconContainer: {
+        height: LIST_ITEM_HEIGHT,
+        width: LIST_ITEM_HEIGHT,
+        justifyContent: 'center',
+        alignItems: 'center',
+        position: 'absolute',
+        right: '5%'
     }
     
 })
