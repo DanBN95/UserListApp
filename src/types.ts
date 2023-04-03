@@ -1,6 +1,6 @@
 export type FullNameType = {
     title: string;
-    fisrt: string;
+    first: string;
     last: string;
 }
 
@@ -28,4 +28,10 @@ export type UserCardType = {
 
 export interface SearchBarInterface {
     filter: (str: string) => void;
+}
+
+export interface usersSliceType {
+    users: UserCardType[];
+    status: "idle" | "loading" | "succeeded" | "failed";
+    error: any;
 }

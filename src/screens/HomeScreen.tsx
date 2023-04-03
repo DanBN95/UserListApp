@@ -1,27 +1,39 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { StyleSheet, Text, SafeAreaView } from 'react-native'
+import { useDispatch, useSelector } from 'react-redux';
 import SearchBar from '../components/SearchBar';
 import UserList from '../components/UserList';
-import dataTest from '../../dataTest.json';
+import { fetchUsers, selectAllUsers } from '../features/userSlice';
+import { UserCardType } from '../types';
 
 const HomeScreen = () => {
 
-  // get userData from selector
-
+  const dispatch = useDispatch();
+  const allUsers = useSelector<UserCardType[]>(selectAllUsers);
+  console.log('### all Users!', allUsers)
   const [criteria, setCriteria] = useState('');
 
   const filteredData = useMemo(() => {
-    // console.log('### criteria', criteria)
-    return dataTest.results.filter(user => {
-      // need to be changed to full name and full location
-      if (!user.name.first.includes(criteria) && !user.location.city.includes(criteria)) {
+    return allUsers.filter((user: UserCardType) => {
+      const { name, location } = user;
+      const { first, last } = name;
+      const { street: { number, name: streetName }, city, country } = location;
+
+      const fullName = `${first} ${last}`;
+      const fullLocation = `${number} ${streetName}, ${city}, ${country}`;
+
+      if (!fullName.toLowerCase().includes(criteria) && !fullLocation.toLowerCase().includes(criteria)) {
         return false;
       }
       return true;
   })
-}, [criteria])
+}, [criteria, allUsers?.length])
 
-// console.log('### filteredDAta:',filteredData)
+console.log('### filteredDAta:',filteredData)
+
+useEffect(() => {
+  dispatch(fetchUsers());
+}, [])
 
   return (
     <SafeAreaView style={styles.container}>

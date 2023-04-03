@@ -1,0 +1,1 @@
+export const USERS_BASE_URL = "https://randomuser.me/api"
