@@ -8,6 +8,8 @@ import { useNavigation } from '@react-navigation/native';
 
 const UserList = ({ data }) => {
 
+    console.log(data)
+
     const dispatch = useDispatch();
     const navigation = useNavigation();
     const scrollRef = useRef(null);

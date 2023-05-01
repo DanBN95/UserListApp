@@ -18,6 +18,8 @@ const HomeScreen = () => {
   const [criteria, setCriteria] = useState('');
 
   const filteredData = useMemo(() => {
+    if (!allUsers || !allUsers.length) return;
+    
     return allUsers.filter((user: UserCardType) => {
       const { name, location } = user;
       const { first, last } = name;
