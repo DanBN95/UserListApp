@@ -6,13 +6,15 @@ import {
   Image, 
   StyleSheet, 
   TouchableOpacity, 
-  Text, 
+  Text,
+  KeyboardAvoidingView, 
+  ScrollView,
   Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector, useDispatch } from "react-redux";
 import { addUser, editUserAtIndex, selectAllUsers } from '../features/userSlice';
 import { UserCardType } from '../types';
-import { MAIN_BG_COLOR } from '../constants/constants';
+import { MAIN_BG_COLOR, PASTEL_PINK } from '../constants/constants';
 
 
 const DEFAULT_PIC_URI = 'https://picsum.photos/200';
@@ -116,68 +118,75 @@ const UserScreen = ({ route }) => {
   }, [])
 
   return (
-    <View style={styles.container}>
-      <View style={styles.profileContainer}>
-        <Image
-          style={styles.profileImage}
-          source={{ uri: userDetails.imageUrl }}
-        />
-      </View>
-      <View style={styles.formContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="First Name"
-          value={userDetails.firstName}
-          onChangeText={(text) =>changeText("firstName", text)}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Last Name"
-          value={userDetails.lastName}
-          onChangeText={(text) =>changeText("lastName", text)}
-        />
-          <View style={styles.checkboxContainer}>
-            <Text style={styles.gender}>Gender</Text>
-          <TouchableOpacity
-            style={[
-              styles.checkbox,
-              userDetails.gender === 'Male' ? styles.checkboxSelected : null,
-            ]}
-            onPress={() => changeText("gender", 'Male')}
-          >
-            <Text style={styles.checkboxLabel}>Male</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[
-              styles.checkbox,
-              userDetails.gender === 'Female' ? styles.checkboxSelected : null,
-            ]}
-            onPress={() => changeText("gender", 'Female')}
-          >
-            <Text style={styles.checkboxLabel}>Female</Text>
-          </TouchableOpacity>
+    <ScrollView style={styles.screen}>
+      <KeyboardAvoidingView style={styles.screen} behavior='position'>
+        <View style={styles.container}>
+          <View style={styles.profileContainer}>
+            <Image
+              style={styles.profileImage}
+              source={{ uri: userDetails.imageUrl }}
+            />
+          </View>
+          <View style={styles.formContainer}>
+            <TextInput
+              style={styles.input}
+              placeholder="First Name"
+              value={userDetails.firstName}
+              onChangeText={(text) =>changeText("firstName", text)}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Last Name"
+              value={userDetails.lastName}
+              onChangeText={(text) =>changeText("lastName", text)}
+            />
+              <View style={styles.checkboxContainer}>
+                <Text style={styles.gender}>Gender</Text>
+              <TouchableOpacity
+                style={[
+                  styles.checkbox,
+                  userDetails.gender === 'Male' ? styles.checkboxSelected : null,
+                ]}
+                onPress={() => changeText("gender", 'Male')}
+              >
+                <Text style={styles.checkboxLabel}>Male</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[
+                  styles.checkbox,
+                  userDetails.gender === 'Female' ? styles.checkboxSelected : null,
+                ]}
+                onPress={() => changeText("gender", 'Female')}
+              >
+                <Text style={styles.checkboxLabel}>Female</Text>
+              </TouchableOpacity>
+            </View>
+            <TextInput
+              style={styles.input}
+              placeholder="Email"
+              value={userDetails.email}
+              onChangeText={(text) =>changeText("email", text)}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="3798 Rue Duguesclin, lyon, France"
+              value={userDetails.location}
+              onChangeText={(text) =>changeText("location", text)}
+            />
+            <Button title="Save Changes" onPress={handleSubmit} color={PASTEL_PINK} />
+          </View>
         </View>
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          value={userDetails.email}
-          onChangeText={(text) =>changeText("email", text)}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="3798 Rue Duguesclin, lyon, France"
-          value={userDetails.location}
-          onChangeText={(text) =>changeText("location", text)}
-        />
-        <Button title="Save Changes" onPress={handleSubmit} />
-      </View>
-    </View>
+      </KeyboardAvoidingView>
+    </ScrollView>
   )
 }
 
 export default UserScreen
 
 const styles = StyleSheet.create({
+  screen: {
+    flex: 1,
+  },
   container: {
     flex: 1,
     alignItems: 'center',
