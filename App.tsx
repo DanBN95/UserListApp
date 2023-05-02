@@ -19,13 +19,14 @@ import RootStack from './src/navigation/RootStack';
 import { Provider } from 'react-redux';
 import { store } from './src/app/store';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import CodePush from 'react-native-code-push';
 
 const App = () => {
 
   return (
     <NavigationContainer>
       <Provider store={store}>
-        <GestureHandlerRootView style={{ flex: 1 }}>
+        <GestureHandlerRootView style={styles.screen}>
           <RootStack />
         </GestureHandlerRootView>
       </Provider>
@@ -34,22 +35,9 @@ const App = () => {
 };
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
+  screen: {
+    flex: 1
+  }
 });
 
-export default App;
+export default CodePush(App);
